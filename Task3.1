@@ -1,6 +1,6 @@
-WITH
-highest_salary AS (SELECT department_id, MAX(salary) AS maxsal FROM hr.employees GROUP BY department_id)
-SELECT emp.department_id,emp.first_name || ' ' || emp.last_name AS "EMPLOYEE NAME", emp.salary
-FROM hr.employees emp, highest_salary hest
-WHERE emp.department_id = hest.department_id AND emp.salary = hest.maxsal
-ORDER BY emp.department_id;
+with
+highest_salary as (select department_id, max(salary) as maxsal from hr.employees group by department_id)
+select emp.department_id,emp.first_name || ' ' || emp.last_name as "EMPLOYEE NAME", emp.salary
+from hr.employees emp, highest_salary hest
+where emp.department_id = hest.department_id and emp.salary = hest.maxsal
+order by emp.department_id;
