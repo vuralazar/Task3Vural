@@ -1,0 +1,9 @@
+WITH
+dept AS (SELECT department_id, location_id FROM hr.departments),
+emp AS (SELECT department_id FROM hr.employees)
+SELECT dept.location_id, COUNT(*) AS "Registered Employees"
+FROM emp,dept
+WHERE emp.department_id = dept.department_id 
+GROUP BY dept.location_id
+ORDER BY dept.location_id;
+

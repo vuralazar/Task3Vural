@@ -1,0 +1,16 @@
+
+
+WITH
+dept1 AS (SELECT DISTINCT(emp.department_id) AS deptid1 FROM hr.employees emp, hr.departments dept WHERE emp.department_id = dept.department_id),
+dept2 AS (SELECT department_id AS deptid2 FROM hr.departments),
+dept_dif AS (SELECT deptid2 FROM dept2
+            MINUS
+            SELECT deptid1 FROM dept1),
+oppo_name AS (SELECT dept.department_name dept_name FROM hr.departments dept, dept_dif WHERE dept.department_id = dept_dif.deptid2)
+SELECT dept_name, REPLACE(sys_connect_by_path(SUBSTR (dept_name, LEVEL*-1, 1), '~|'), '~|') "Reversing of the word"
+FROM   oppo_name
+WHERE  connect_by_isleaf = 1
+CONNECT BY PRIOR dept_name = dept_name                  
+           AND PRIOR SYS_GUID() IS NOT NULL 
+           AND LEVEL <= LENGTH(dept_name)
+ORDER BY dept_name;

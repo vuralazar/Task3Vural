@@ -1,0 +1,9 @@
+WITH
+dept1 AS (SELECT DISTINCT(emp.department_id) AS deptid1 FROM hr.employees emp, hr.departments dept WHERE emp.department_id = dept.department_id),
+dept2 AS (SELECT department_id AS deptid2 FROM hr.departments),
+dept_dif AS (SELECT deptid2 FROM dept2
+            MINUS
+            SELECT deptid1 FROM dept1)
+SELECT dept_dif.deptid2, dept.department_name, SUBSTR(dept.department_name,5,1) 
+FROM   hr.departments dept, dept_dif
+WHERE  dept.department_id = dept_dif.deptid2
