@@ -1,13 +1,10 @@
-
-
-WITH
-dept1 AS (SELECT DISTINCT(emp.department_id) AS deptid1 FROM hr.employees emp, hr.departments dept WHERE emp.department_id = dept.department_id),
-dept2 AS (SELECT department_id AS deptid2 FROM hr.departments),
-dept_dif AS (SELECT deptid2 FROM dept2 MINUS SELECT deptid1 FROM dept1),
-oppo_name AS (SELECT dept.department_name dept_name FROM hr.departments dept, dept_dif WHERE dept.department_id = dept_dif.deptid2)
-SELECT dept_name, REPLACE(sys_connect_by_path(SUBSTR (dept_name, LEVEL*-1, 1), '~|'), '~|') "Reversing of the word" FROM  oppo_name
-WHERE  connect_by_isleaf = 1
-CONNECT BY PRIOR dept_name = dept_name                  
- AND PRIOR SYS_GUID() IS NOT NULL 
- AND LEVEL <= LENGTH(dept_name)
-ORDER BY dept_name;
+with
+dept1 as (select distinct(emp.department_id) as deptid1 from hr.employees emp, hr.departments dept where emp.department_id = dept.department_id),
+dept2 as (select department_id as deptid2 from hr.departments),
+dept_dif as (select deptid2 from dept2 minus select deptid1 from dept1),
+oppo_name as (select dept.department_name n_deptname from hr.departments dept, dept_dif where dept.department_id = dept_dif.deptid2)
+select n_deptname, replace(sys_connect_by_path(substr(n_deptname, level*-1, 1), '~|'), '~|') "Reversing of the word" from  oppo_name
+where  connect_by_isleaf = 1
+connect by prior n_deptname = n_deptname                  
+and prior sys_guid() is not null and level <= length(n_deptname)
+order by n_deptname;
