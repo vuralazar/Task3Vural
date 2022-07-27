@@ -1,6 +1,6 @@
-WITH
-dept1 AS (SELECT DISTINCT(emp.department_id) AS deptid1 FROM hr.employees emp, hr.departments dept WHERE emp.department_id = dept.department_id),
-dept2 AS (SELECT department_id AS deptid2 FROM hr.departments),
-dept_dif AS (SELECT deptid2 FROM dept2 MINUS SELECT deptid1 FROM dept1)
-SELECT dept.department_id, dept.department_name, REVERSE(SUBSTR(dept.department_name,-3,3)) FROM hr.departments dept, dept_dif
-WHERE dept.department_id = dept_dif.deptid2
+with
+dept1 as (select distinct(emp.department_id) as deptid1 from hr.employees emp, hr.departments dept where emp.department_id = dept.department_id),
+dept2 as (select department_id as deptid2 from hr.departments),
+dept_dif as (select deptid2 from dept2 minus select deptid1 from dept1)
+select dept.department_id, dept.department_name, reverse(substr(dept.department_name,-3,3)) from hr.departments dept, dept_dif
+where dept.department_id = dept_dif.deptid2
