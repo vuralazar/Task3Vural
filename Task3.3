@@ -2,5 +2,5 @@ with
 dept1 as (select distinct(emp.department_id) as deptid1 from hr.employees emp, hr.departments dept where emp.department_id = dept.department_id),
 dept2 as (select department_id as deptid2 from hr.departments),
 dept_dif as (select deptid2 from dept2 minus select deptid1 from dept1)
-select dept_dif.deptid2, dept.department_name, substr(dept.department_name,5,1) from hr.departments dept, dept_dif
+select dept_dif.deptid2,dept.department_name, substr(dept.department_name,5,1) from hr.departments dept, dept_dif
 where dept.department_id = dept_dif.deptid2
