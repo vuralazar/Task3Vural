@@ -1,7 +1,7 @@
 with
 dept as (select department_id, location_id from hr.departments),
 emp as (select department_id from hr.employees)
-select dept.location_id, count(*) as "Registered Employees" from emp,dept
+select dept.location_id,count(*) as "Registered Employees" from emp,dept
 where emp.department_id = dept.department_id 
 group by dept.location_id
 order by dept.location_id;
